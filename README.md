@@ -1,6 +1,6 @@
 # LeekWars Python Scripts
 
-![Site Screenshot](https://i.imgur.com/cM7Uieh.png)
+![Site Screenshot](https://i.imgur.com/dGOGdGC.png)
 
 TODO: Write a project description
 
