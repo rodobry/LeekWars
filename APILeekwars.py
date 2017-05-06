@@ -90,7 +90,7 @@ class APIFarmer:
                                             "leek_name" : leek_name,
                                             "godfather" : godfather}).json()
 
-    def regiter_tournament(self, token):
+    def register_tournament(self, token):
         url = self.url + "/register-tournament/"
         return self.session.post(url, data = {"token" : token}).json()
 
@@ -217,6 +217,10 @@ class APILeek:
     def set_register(self, leek_id, key, value, token):
         url = self.url + "/set-register/"
         return self.session.post(url, data = {"leek_id" : leek_id, "key" : key, "value" : value, "token" : token}).json()
+
+    def register_tournament(self, leek_id, token):
+        url = self.url +"/register-tournament/"
+        return self.session.post(url, data = {"leek_id" : leek_id, "token" : token}).json()
 
 class APINotification:
     """docstring for APILeek"""

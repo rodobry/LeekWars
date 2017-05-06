@@ -23,31 +23,26 @@ if r["success"]:
     nbfights = farmer["fights"]
     money = farmer["habs"]
     print("Connexion réussie ! \nNom d'utilisateur : {}    Habs actuels :  {}\n{} Victoires \n{} Nuls \n{} Défaites \n{} de ratio.".format(login, money, victories, draws, defeats, ratio))
-    leeks = farmer["leeks"]
-    nbleeks = len(list(leeks))
-    u = list(leeks)
-    leekslist = []
-    dictLeek = {}
-    for x in range(nbleeks):
-        leekslist.append(leeks[u[x]])
-        print("Poireau {} Nom : {}".format(x+1,leekslist[x]["name"]))
-        dictLeek[str(x+1)] = u[x]
+    leeks = sorted(farmer["leeks"].values(), key=lambda l: l['id'])
+    print('\n'.join('Poireau {} : {}'.format(i, l['name']) for i, l in enumerate(leeks, 1)))
+   	
     if nbfights == 0:
         print("Pas de combats disponibles, réessayez demain.")
     else:
         print("Vous avez {} combats restants.".format(nbfights))
         nbfightsWntd = int(input("Veuillez choisir le nombre de combats que vous souhaitez lancer : "))
-        leekchosen = input("Veuillez choisir le numéro correspondant au poireau qui doit se battre : ")
+        leekchosen = int(input("Veuillez choisir le numéro correspondant au poireau qui doit se battre : "))
+        leek = leeks[leekchosen-1]
         i = 0
         file = open("logs/solofights{}.txt".format(datetime.now().strftime('%d-%m-%Y_%H:%M:%S')),"w")
-        file.write("Poireau choisi pour {} combats : {}\n".format(nbfightsWntd, leekslist[int(leekchosen)-1]["name"]))
+        file.write("Poireau choisi pour {} combats : {}\n".format(nbfightsWntd, leek["name"]))
         while i < nbfightsWntd:
-            r = api.garden.get_leek_opponents(dictLeek[leekchosen], token)
+            r = api.garden.get_leek_opponents(leek["id"], token)
             if r["success"]:
                 print("Adversaires correctement chargés. Choix aléatoire de l'adversaire en cours...")
                 random.seed()
                 opponent = random.choice(r["opponents"])["id"]
-                r = api.garden.start_solo_fight(dictLeek[leekchosen], opponent, token)
+                r = api.garden.start_solo_fight(leek["id"], opponent, token)
                 if r["success"]:
                     file.write("https://leekwars.com/fight/{}\n".format(r["fight"]))
                     print("https://leekwars.com/fight/{}".format(r["fight"]))
