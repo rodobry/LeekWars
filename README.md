@@ -1,8 +1,17 @@
 # LeekWars Python Scripts
 
-![Site Screenshot](https://i.imgur.com/dGOGdGC.png)
+![solo fights](https://i.imgur.com/dGOGdGC.png)
+![tournament registerer](https://i.imgur.com/5l5nXg0.png)
 
-TODO: Write a project description
+"solofights.py" permet de lancer le nombre voulu de combats solo avec le poireau voulu.
+
+"tournament-register.py" permet de s'inscrire à tous les tournois possible. 
+
+
+> ### Attention
+> Si vous n'êtes pas capitaine ou le propriétaire de l'équipe, vous ne pourrez pas inscrire les compositions dont vous faites parti.
+
+
 
 ## Installation
 
@@ -27,7 +36,7 @@ TODO: Write history
 
 ## Credits
 
-TODO: Write credits
+Remerciements à [Shakadak](https://github.com/Shakadak) pour son api-wrapper auquel j'ai ajouté quelques fonctions dont j'avais besoin pour ces scripts.
 
 ## License
 
