@@ -246,6 +246,15 @@ class APIService:
         url = self.url + "/get-all/" + token
         return self.session.get(url).json()
 
+class APITeam:
+    """docstring for APITeam"""
+    def __init__(self, session):
+        self.session = session
+        self.url = "https://leekwars.com/api/team"
+
+    def register_tournament(self, composition_id, token):
+        url = self.url +"/register-tournament/"
+        return self.session.post(url, data = {"composition_id" : composition_id, "token" : token}).json()
 
 class APILeekwars():
     """docstring for APILeekwars"""
@@ -259,3 +268,4 @@ class APILeekwars():
         self.leek = APILeek(self.session)
         self.notification = APINotification(self.session)
         self.service = APIService(self.session)
+        self.team = APITeam(self.session)

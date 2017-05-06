@@ -22,10 +22,9 @@ if r["success"]:
     ratio = farmer["ratio"]
     nbfights = farmer["fights"]
     money = farmer["habs"]
-    print("Connexion réussie ! \nNom d'utilisateur : {}    Habs actuels :  {}\n{} Victoires \n{} Nuls \n{} Défaites \n{} de ratio.".format(login, money, victories, draws, defeats, ratio))
+    print("Connexion réussie ! \nNom d'utilisateur : {}    Habs actuels :  {}\n{} Victoires         {} Nuls         {} Défaites \n{} de ratio.".format(login, money, victories, draws, defeats, ratio))
     leeks = sorted(farmer["leeks"].values(), key=lambda l: l['id'])
     print('\n'.join('Poireau {} : {}'.format(i, l['name']) for i, l in enumerate(leeks, 1)))
-   	
     if nbfights == 0:
         print("Pas de combats disponibles, réessayez demain.")
     else:
@@ -34,7 +33,7 @@ if r["success"]:
         leekchosen = int(input("Veuillez choisir le numéro correspondant au poireau qui doit se battre : "))
         leek = leeks[leekchosen-1]
         i = 0
-        file = open("logs/solofights{}.txt".format(datetime.now().strftime('%d-%m-%Y_%H:%M:%S')),"w")
+        file = open("logs/solofights_{}.txt".format(datetime.now().strftime('%d-%m-%Y_%H:%M:%S')),"w")
         file.write("Poireau choisi pour {} combats : {}\n".format(nbfightsWntd, leek["name"]))
         while i < nbfightsWntd:
             r = api.garden.get_leek_opponents(leek["id"], token)
