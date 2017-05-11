@@ -32,6 +32,7 @@ if r["success"]:
         nbfightsWntd = int(input("Veuillez choisir le nombre de combats que vous souhaitez lancer : "))
         leekchosen = int(input("Veuillez choisir le numéro correspondant au poireau qui doit se battre : "))
         leek = leeks[leekchosen-1]
+        print(leek)
         i = 0
         file = open("logs/solofights_{}.txt".format(datetime.now().strftime('%d-%m-%Y_%H:%M:%S')),"w")
         file.write("Poireau choisi pour {} combats : {}\n".format(nbfightsWntd, leek["name"]))
@@ -45,7 +46,7 @@ if r["success"]:
                 if r["success"]:
                     file.write("https://leekwars.com/fight/{}\n".format(r["fight"]))
                     print("https://leekwars.com/fight/{}".format(r["fight"]))
-                    print(datetime.now().strftime('%H:%M:%S'))
+                    print(datetime.now().strftime('%H-%M-%S'))
                 else:
                     print("Erreur lors du lancement du combat")
             else:
