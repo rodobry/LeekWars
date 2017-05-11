@@ -15,11 +15,27 @@
 
 ## Installation
 
-TODO: Describe the installation process
+Telecharger l'archive ou faire :
+
+```
+git clone https://github.com/rodobry/LeekWars.git
+```
+
+Il y aura peut être besoin d'installer "requests", pour cela faire :
+
+```python
+pip install requests
+```
 
 ## Usage
 
-TODO: Write usage instructions
+```python
+python solofights.py
+```
+
+```python
+python tournament-register.py
+```
 
 ## Contributing
 
