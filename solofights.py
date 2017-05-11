@@ -34,7 +34,7 @@ if r["success"]:
         leek = leeks[leekchosen-1]
         print(leek)
         i = 0
-        file = open("logs/solofights_{}.txt".format(datetime.now().strftime('%d-%m-%Y_%H:%M:%S')),"w")
+        file = open("logs/solofights_{}.txt".format(datetime.now().strftime('%d-%m-%Y_%H-%M-%S')),"w")
         file.write("Poireau choisi pour {} combats : {}\n".format(nbfightsWntd, leek["name"]))
         while i < nbfightsWntd:
             r = api.garden.get_leek_opponents(leek["id"], token)
