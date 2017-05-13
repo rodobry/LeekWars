@@ -6,7 +6,7 @@ import APILeekwars as API
 import getpass
 import os
 
-os.makedirs("{}/logs".format(os.getcwd()), exist_ok=True)
+os.makedirs("{}/logs/solofights".format(os.getcwd()), exist_ok=True)
 
 api = API.APILeekwars()
 farmer_name = input('Login: ')
@@ -54,4 +54,4 @@ if r["success"]:
             i += 1
     r = api.farmer.disconnect(token)
 else:
-    print("Erreur lors de la connexion du fermier. Vérifiez vos identifiants.")
+    print("Erreur lors de la connexion de l'éleveur. Vérifiez vos identifiants.")
