@@ -1,6 +1,6 @@
 # LeekWars Python Scripts
 
-![menu.py](https://i.imgur.com/DNIuAU5.png)
+![menu.py](https://i.imgur.com/jgxrbC3.png)
 
 > ### Attention
 > Si vous n'êtes pas capitaine ou le propriétaire de l'équipe, vous ne pourrez pas inscrire les compositions dont vous faites parti.
