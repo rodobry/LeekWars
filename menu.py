@@ -33,6 +33,7 @@ global money
 
 # Main menu
 def main_menu():
+    maj(token)
     os.system('cls' if os.name == 'nt' else 'clear')
     print("=====================================================================")
     print("                        INFORMATIONS COMPTE                          ")
@@ -64,6 +65,7 @@ def exec_menu(choice):
 
 # Menu 1
 def menu1():
+    maj(token)
     print("=====================================================================")
     print("                        INFORMATIONS COMPTE                          ")
     print("=====================================================================")
@@ -96,7 +98,7 @@ def menu1():
                     print("Erreur lors du lancement du combat")
             else:
                 print("Erreur lors de l'affichage des adversaires")
-            i += 1
+            i += 1       
     print ("\n9. Retour")
     print ("0. Quitter")
     choice = input(" >>  ")
@@ -105,6 +107,7 @@ def menu1():
 
 # Menu 2
 def menu2():
+    maj(token)
     print("=====================================================================")
     print("                        INFORMATIONS COMPTE                          ")
     print("=====================================================================")
@@ -134,7 +137,7 @@ def menu2():
                     print("Erreur lors du lancement du combat")
             else:
                 print("Erreur lors de l'affichage des éleveurs")
-            i += 1
+            i += 1    
     print ("\n9. Retour")
     print ("0. Quitter")
     choice = input(" >>  ")
@@ -142,6 +145,7 @@ def menu2():
     return
 
 def menu4():
+    maj(token)
     print("=====================================================================")
     print("                        INFORMATIONS COMPTE                          ")
     print("=====================================================================")
@@ -169,7 +173,7 @@ def menu4():
         if r["success"]:
             print("{} a bien été inscrit au tournoi solo.".format(i["name"]))
         else :
-            print("{} {} pour le tournoi solo".format(i["name"], r["error"]))
+            print("{} {} pour le tournoi solo".format(i["name"], r["error"]))  
     print ("\n9. Retour")
     print ("0. Quitter")
     choice = input(" >>  ")
@@ -177,6 +181,7 @@ def menu4():
     return
 
 def menu3():
+    maj(token)
     print("=====================================================================")
     print("                        INFORMATIONS COMPTE                          ")
     print("=====================================================================")
@@ -232,18 +237,21 @@ def exit():
 def maj(token):
     r = api.farmer.get_from_token(token)
     if r["success"]:
+        global victories
+        global draws
+        global defeats
+        global ratio
+        global nbfights
+        global money
         farmer = r["farmer"]
-        login = farmer["name"]
         victories = farmer["victories"]
         draws = farmer["draws"]
         defeats = farmer["defeats"]
         ratio = farmer["ratio"]
         nbfights = farmer["fights"]
         money = farmer["habs"]
-        return farmer, login, victories, draws, defeats, ratio, nbfights, money
     else:
         print("MAJ Des informations impossible")
-    return
 # Menu definition
 menu_actions = {
     'main_menu': main_menu,
