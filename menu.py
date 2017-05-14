@@ -4,9 +4,9 @@
 #description     :This program displays an interactive menu
 #version         :1.0
 #usage           :python menu.py
-#python_version  :3.6.1  
+#python_version  :3.6.1
 #=======================================================================
- 
+
 # Import the modules needed to run the script.
 import sys, os
 import random
@@ -14,10 +14,10 @@ from datetime import datetime
 import APILeekwars as API
 import getpass
 import os
- 
+
 
 # Main definition - constants
-menu_actions  = {}  
+menu_actions  = {}
 global token
 global farmer
 global nbfights
@@ -26,11 +26,11 @@ global victories
 global draws
 global defeats
 global ratio
-global money 
+global money
 # =======================
 #     MENUS FUNCTIONS
 # =======================
- 
+
 # Main menu
 def main_menu():
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -47,7 +47,7 @@ def main_menu():
     choice = input(" >>  ")
     exec_menu(choice)
     return
- 
+
 # Execute menu
 def exec_menu(choice):
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -61,7 +61,7 @@ def exec_menu(choice):
             print ("Invalid selection, please try again.\n")
             menu_actions['main_menu']()
     return
- 
+
 # Menu 1
 def menu1():
     print("=====================================================================")
@@ -102,7 +102,7 @@ def menu1():
     choice = input(" >>  ")
     exec_menu(choice)
     return
- 
+
 # Menu 2
 def menu2():
     print("=====================================================================")
@@ -217,19 +217,19 @@ def menu3():
     choice = input(" >>  ")
     exec_menu(choice)
     return
- 
+
 # Back to main menu
 def back():
     menu_actions['main_menu']()
- 
+
 # Exit program
 def exit():
     sys.exit()
- 
+
 # =======================
 #    MENUS DEFINITIONS
 # =======================
-def maj(token, farmer, login, victories, draws, defeats, ratio, nbfights, money):
+def maj(token):
     r = api.farmer.get_from_token(token)
     if r["success"]:
         farmer = r["farmer"]
@@ -240,7 +240,7 @@ def maj(token, farmer, login, victories, draws, defeats, ratio, nbfights, money)
         ratio = farmer["ratio"]
         nbfights = farmer["fights"]
         money = farmer["habs"]
-        return
+        return farmer, login, victories, draws, defeats, ratio, nbfights, money
     else:
         print("MAJ Des informations impossible")
     return
@@ -254,11 +254,11 @@ menu_actions = {
     '9': back,
     '0': exit,
 }
- 
+
 # =======================
 #      MAIN PROGRAM
 # =======================
- 
+
 # Main Program
 if __name__ == "__main__":
     os.makedirs("{}/logs/solofights".format(os.getcwd()), exist_ok=True)
