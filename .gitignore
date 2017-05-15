@@ -1,5 +1,4 @@
 
 *.pyc
-
 *.txt
-farmerfights.py
+cfg/config.json
