@@ -1,12 +1,6 @@
 # LeekWars Python Scripts
 
-![solo fights](https://i.imgur.com/dGOGdGC.png)
-![tournament registerer](https://i.imgur.com/5l5nXg0.png)
-
-"solofights.py" permet de lancer le nombre voulu de combats solo avec le poireau voulu.
-
-"tournament-register.py" permet de s'inscrire à tous les tournois possible. 
-
+![menu.py](https://i.imgur.com/jgxrbC3.png)
 
 > ### Attention
 > Si vous n'êtes pas capitaine ou le propriétaire de l'équipe, vous ne pourrez pas inscrire les compositions dont vous faites parti.
@@ -30,11 +24,7 @@ pip install requests
 ## Usage
 
 ```python
-python solofights.py
-```
-
-```python
-python tournament-register.py
+python menu.py
 ```
 
 ## Contributing
