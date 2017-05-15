@@ -13,25 +13,31 @@ import random
 from datetime import datetime
 import APILeekwars as API
 import getpass
-import os
-
+import os.path
+import json
 
 # Main definition - constants
 menu_actions  = {}
-global token
-global farmer
-global nbfights
-global login
-global victories
-global draws
-global defeats
-global ratio
-global money
+
 # =======================
 #     MENUS FUNCTIONS
 # =======================
 
 # Main menu
+
+def intro_menu():
+    os.system('cls' if os.name == 'nt' else 'clear')
+    print("=====================================================================")
+    print("                             CONNEXION                               ")
+    print("=====================================================================")
+    print("1. Utiliser un compte sauvegardé")
+    print("2. Se connecter via Invite de commande")
+    print("3. Ajouter un compte")
+    print("\n 0. Quitter")
+    choice = input(" >>  ")
+    exec_menu2(choice)
+    return
+
 def main_menu():
     maj(token)
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -44,10 +50,28 @@ def main_menu():
     print ("2. Combats d'Eleveurs")
     print ("3. Combats d'Equipe")
     print ("4. Inscription tournois")
-    print ("\n0. Quitter")
+    print("\n9. Retour")
+    print ("0. Quitter")
     choice = input(" >>  ")
-    exec_menu(choice)
+    if choice == "9":
+        exec_menu2(choice)
+    else:
+        exec_menu(choice)
     return
+
+def exec_menu2(choice):
+    os.system('cls' if os.name == 'nt' else 'clear')
+    ch = choice.lower()
+    if ch == '':
+        menu_actions2['intro_menu']()
+    else:
+        try:
+            menu_actions2[ch]()
+        except KeyError:
+            print ("Invalid selection, please try again.\n")
+            menu_actions2['intro_menu']()
+    return
+
 
 # Execute menu
 def exec_menu(choice):
@@ -62,6 +86,127 @@ def exec_menu(choice):
             print ("Invalid selection, please try again.\n")
             menu_actions['main_menu']()
     return
+
+
+
+def addAccount():
+    os.system('cls' if os.name == 'nt' else 'clear')
+    print("=====================================================================")
+    print("                             CONNEXION                               ")
+    print("=====================================================================")
+    listeAccs = []
+    if os.path.exists('cfg/config.json') and os.path.getsize('cfg/config.json') > 0:
+        with open('cfg/config.json') as json_data_file:
+            cfg = json.load(json_data_file)
+            listeAccs = cfg
+    else:
+        os.makedirs("{}/cfg".format(os.getcwd()), exist_ok=True)
+    # comptes = sorted(cfg["login"].values(), key=lambda l: l['pw'])
+    # print('\n'.join('Compte {} : {}'.format(i, l['login']) for i, l in enumerate(comptes, 1)))
+    farmer_name = input('Identifiant: ')
+    password = getpass.getpass(prompt='Mot de passe: ')
+    r = api.farmer.login_token(farmer_name, password)
+    if r["success"]:
+        d = dict([("login", farmer_name),("pw", password)])
+        listeAccs.append(d)
+        with open('cfg/config.json', 'w') as outfile:
+            json.dump(listeAccs, outfile)
+        print("Compte ajouté !")
+    else:
+        print("Mauvais identifiants, veuillez ajouter des logins fonctionnels")
+    print("\n9. Retour")
+    print ("0. Quitter")
+    choice = input(" >>  ")
+    exec_menu2(choice)
+    return
+
+def coCfg():
+    os.system('cls' if os.name == 'nt' else 'clear')
+    print("=====================================================================")
+    print("                             CONNEXION                               ")
+    print("=====================================================================")
+    if os.path.exists('cfg/config.json') and os.path.getsize('cfg/config.json') > 0:
+        with open('cfg/config.json') as json_data_file:
+            cfg = json.load(json_data_file)
+    else:
+        exec_menu2("3")
+    a=0 
+    for i in cfg:
+        a+=1
+        print('Compte {} : {}'.format(a, i["login"]))
+    accChosen = int(input("Veuillez choisir le numéro correspondant au que vous voulez connecter : "))
+    acc = cfg[accChosen-1]
+    farmer_name = acc["login"]
+    password = acc["pw"]
+    r = api.farmer.login_token(farmer_name, password)
+    if r["success"]:
+        global token
+        global farmer
+        global login
+        global victories
+        global draws
+        global defeats
+        global ratio
+        global nbfights
+        global money
+        token = r["token"]
+        farmer = r["farmer"]
+        login = farmer["name"]
+        victories = farmer["victories"]
+        draws = farmer["draws"]
+        defeats = farmer["defeats"]
+        ratio = farmer["ratio"]
+        nbfights = farmer["fights"]
+        money = farmer["habs"]
+        print("Connexion réussie !")
+        # launch main menu
+        main_menu()
+    else:
+        print("Erreur lors de la connexion")
+        print("\n9. Retour")
+        print ("0. Quitter")
+        choice = input(" >>  ")
+        exec_menu2(choice)
+    return
+
+def coPrompt():
+    os.system('cls' if os.name == 'nt' else 'clear')
+    print("=====================================================================")
+    print("                             CONNEXION                               ")
+    print("=====================================================================")
+    farmer_name = input('Identifiant: ')
+    password = getpass.getpass(prompt='Mot de passe: ')
+    r = api.farmer.login_token(farmer_name, password)
+    if r["success"]:
+        global token
+        global farmer
+        global login
+        global victories
+        global draws
+        global defeats
+        global ratio
+        global nbfights
+        global money
+        token = r["token"]
+        farmer = r["farmer"]
+        login = farmer["name"]
+        victories = farmer["victories"]
+        draws = farmer["draws"]
+        defeats = farmer["defeats"]
+        ratio = farmer["ratio"]
+        nbfights = farmer["fights"]
+        money = farmer["habs"]
+        print("Connexion réussie !")
+        # launch main menu
+        main_menu()
+    else:
+        print("\nErreur lors de la connexion de l'éleveur. Vérifiez vos identifiants.")
+        print("\n9. Retour")
+        print ("0. Quitter")
+        choice = input(" >>  ")
+        exec_menu2(choice)
+    return
+
 
 # Menu 1
 def menu1():
@@ -197,7 +342,7 @@ def menu3():
         if nbteamfightsTotal == 0:
             print("\nPas de combats disponibles, réessayez demain.")
         else:
-            compchosen = int(input("Veuillez choisir le numéro correspondant au poireau qui doit se battre : "))
+            compchosen = int(input("Veuillez choisir le numéro correspondant à la composition qui doit se battre : "))
             comp = compositions[compchosen-1]
             nbfightsWntd = int(input("Veuillez choisir le nombre de combats que vous souhaitez lancer : "))
             i = 0
@@ -227,6 +372,8 @@ def menu3():
 def back():
     menu_actions['main_menu']()
 
+def back2():
+    menu_actions2['intro_menu']()
 # Exit program
 def exit():
     sys.exit()
@@ -263,31 +410,23 @@ menu_actions = {
     '0': exit,
 }
 
+menu_actions2 = {
+    'intro_menu': intro_menu,
+    '1': coCfg,
+    '2': coPrompt,
+    '3': addAccount,
+    '9': back2,
+    '0': exit,
+}
 # =======================
 #      MAIN PROGRAM
 # =======================
 
 # Main Program
 if __name__ == "__main__":
+    global comptes
     os.makedirs("{}/logs/solofights".format(os.getcwd()), exist_ok=True)
     os.makedirs("{}/logs/farmerfights".format(os.getcwd()), exist_ok=True)
     os.makedirs("{}/logs/teamfights".format(os.getcwd()), exist_ok=True)
     api = API.APILeekwars()
-    farmer_name = input('Identifiant: ')
-    password = getpass.getpass(prompt='Mot de passe: ')
-    r = api.farmer.login_token(farmer_name, password)
-    if r["success"]:
-        token = r["token"]
-        farmer = r["farmer"]
-        login = farmer["name"]
-        victories = farmer["victories"]
-        draws = farmer["draws"]
-        defeats = farmer["defeats"]
-        ratio = farmer["ratio"]
-        nbfights = farmer["fights"]
-        money = farmer["habs"]
-        print("Connexion réussie !")
-        # launch main menu
-        main_menu()
-    else:
-        print("Erreur lors de la connexion de l'éleveur. Vérifiez vos identifiants.")
+    intro_menu()
