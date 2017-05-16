@@ -54,6 +54,7 @@ def main_menu():
     print ("0. Quitter")
     choice = input(" >>  ")
     if choice == "9":
+        api.farmer.disconnect(token)
         exec_menu2(choice)
     else:
         exec_menu(choice)
