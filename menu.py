@@ -225,9 +225,12 @@ def menu1():
         print("\nPas de combats disponibles, réessayez demain.")
     else:
         print("Vous avez {} combats restants.".format(nbfights))
+        if (len(leeks) == 1):
+            leek = leeks[0]
+        else:
+            leekchosen = int(input("Veuillez choisir le numéro correspondant au poireau qui doit se battre : "))
+            leek = leeks[leekchosen - 1]
         nbfightsWntd = int(input("Veuillez choisir le nombre de combats que vous souhaitez lancer : "))
-        leekchosen = int(input("Veuillez choisir le numéro correspondant au poireau qui doit se battre : "))
-        leek = leeks[leekchosen-1]
         i = 0
         file = open("logs/solofights/solofights_{}.txt".format(datetime.now().strftime('%d-%m-%Y_%H-%M-%S')),"w")
         file.write("Poireau choisi pour {} combats : {}\n".format(nbfightsWntd, leek["name"]))
@@ -343,8 +346,11 @@ def menu3():
         if nbteamfightsTotal == 0:
             print("\nPas de combats disponibles, réessayez demain.")
         else:
-            compchosen = int(input("Veuillez choisir le numéro correspondant à la composition qui doit se battre : "))
-            comp = compositions[compchosen-1]
+            if len(compositions) == 1:
+                comp = compositions[0]
+            else:
+                compchosen = int(input("Veuillez choisir le numéro correspondant à la composition qui doit se battre : "))
+                comp = compositions[compchosen - 1]
             nbfightsWntd = int(input("Veuillez choisir le nombre de combats que vous souhaitez lancer : "))
             i = 0
             file = open("logs/teamfights/teamfights_{}.txt".format(datetime.now().strftime('%d-%m-%Y_%H-%M-%S')),"w")
