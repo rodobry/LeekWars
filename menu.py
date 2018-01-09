@@ -131,7 +131,7 @@ def coCfg():
             cfg = json.load(json_data_file)
     else:
         exec_menu2("3")
-    a=0 
+    a=0
     for i in cfg:
         a+=1
         print('Compte {} : {}'.format(a, i["login"]))
@@ -247,7 +247,8 @@ def menu1():
                     print("Erreur lors du lancement du combat")
             else:
                 print("Erreur lors de l'affichage des adversaires")
-            i += 1       
+            i += 1
+        file.close()
     print ("\n9. Retour")
     print ("0. Quitter")
     choice = input(" >>  ")
@@ -281,12 +282,12 @@ def menu2():
                 r = api.garden.start_farmer_fight(opponent, token)
                 if r["success"]:
                     file.write("https://leekwars.com/fight/{}\n".format(r["fight"]))
-                    print("https://leekwars.com/fight/{}".format(r["fight"]))
                 else:
                     print("Erreur lors du lancement du combat")
             else:
                 print("Erreur lors de l'affichage des éleveurs")
-            i += 1    
+            i += 1
+        file.close()
     print ("\n9. Retour")
     print ("0. Quitter")
     choice = input(" >>  ")
@@ -322,7 +323,7 @@ def menu4():
         if r["success"]:
             print("{} a bien été inscrit au tournoi solo.".format(i["name"]))
         else :
-            print("{} {} pour le tournoi solo".format(i["name"], r["error"]))  
+            print("{} {} pour le tournoi solo".format(i["name"], r["error"]))
     print ("\n9. Retour")
     print ("0. Quitter")
     choice = input(" >>  ")
@@ -369,6 +370,8 @@ def menu3():
                 else:
                     print("Erreur lors de l'affichage des éleveurs")
                 i += 1
+            file.close()
+
     print ("9. Retour")
     print ("0. Quitter")
     choice = input(" >>  ")
