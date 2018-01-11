@@ -1,4 +1,4 @@
 
 *.pyc
-*.txt
+logs/
 cfg/config.json
