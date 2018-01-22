@@ -15,16 +15,20 @@ Telecharger l'archive ou faire :
 git clone https://github.com/rodobry/LeekWars.git
 ```
 
-Il y aura peut être besoin d'installer "requests", pour cela faire :
+Il y a des dependances, pour les valider faire :
 
 ```python
-pip install requests
+pip3 install -r requirements.txt
 ```
 
 ## Usage
 
 ```python
 python menu.py
+```
+ou
+```python
+./menu.py
 ```
 
 ## Contributing
