@@ -13,8 +13,9 @@ import random
 from datetime import datetime
 import APILeekwars as API
 import getpass
-import os.path
-import json
+
+from AccountsManager import AccountsManager
+accountsManager = AccountsManager()
 
 # Main definition - constants
 menu_actions  = {}
@@ -95,24 +96,15 @@ def addAccount():
     print("=====================================================================")
     print("                             CONNEXION                               ")
     print("=====================================================================")
-    listeAccs = []
-    if os.path.exists('cfg/config.json') and os.path.getsize('cfg/config.json') > 0:
-        with open('cfg/config.json') as json_data_file:
-            cfg = json.load(json_data_file)
-            listeAccs = cfg
-    else:
-        os.makedirs("{}/cfg".format(os.getcwd()), exist_ok=True)
-    # comptes = sorted(cfg["login"].values(), key=lambda l: l['pw'])
-    # print('\n'.join('Compte {} : {}'.format(i, l['login']) for i, l in enumerate(comptes, 1)))
     farmer_name = input('Identifiant: ')
     password = getpass.getpass(prompt='Mot de passe: ')
     r = api.farmer.login_token(farmer_name, password)
     if r["success"]:
-        d = dict([("login", farmer_name),("pw", password)])
-        listeAccs.append(d)
-        with open('cfg/config.json', 'w') as outfile:
-            json.dump(listeAccs, outfile)
-        print("Compte ajouté !")
+        response = accountsManager.add(farmer_name, password)
+        if response == 1:
+            print("Compte ajouté !")
+        elif response == 2:
+            print("Compte mis à jour !")
     else:
         print("Mauvais identifiants, veuillez ajouter des logins fonctionnels")
     print("\n9. Retour")
@@ -126,10 +118,8 @@ def coCfg():
     print("=====================================================================")
     print("                             CONNEXION                               ")
     print("=====================================================================")
-    if os.path.exists('cfg/config.json') and os.path.getsize('cfg/config.json') > 0:
-        with open('cfg/config.json') as json_data_file:
-            cfg = json.load(json_data_file)
-    else:
+    cfg = accountsManager.getAll()
+    if len(cfg) == 0:
         exec_menu2("3")
     a=0
     for i in cfg:
