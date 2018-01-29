@@ -13,6 +13,7 @@ class AccountsManager:
                 self.save()
                 return 2
         self.accounts.append(dict([("login", name),("pw", password)]))
+        self.accounts.sort(key=lambda k: k['login'].lower())
         self.save()
         return 1
     def getAll(self):
