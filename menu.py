@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-#title           :menu.py
-#description     :This program displays an interactive menu
-#version         :1.0
-#usage           :python menu.py
-#python_version  :3.6.1
-#=======================================================================
+# title           :menu.py
+# description     :This program displays an interactive menu
+# version         :1.0
+# usage           :python menu.py
+# python_version  :3.6.1
+# =======================================================================
 
 # Import the modules needed to run the script.
 import sys, os
@@ -15,10 +15,12 @@ import APILeekwars as API
 import getpass
 
 from AccountsManager import AccountsManager
+
 accountsManager = AccountsManager()
 
 # Main definition - constants
-menu_actions  = {}
+menu_actions = {}
+
 
 # =======================
 #     MENUS FUNCTIONS
@@ -39,20 +41,23 @@ def intro_menu():
     exec_menu2(choice)
     return
 
+
 def main_menu():
     maj(token)
     os.system('cls' if os.name == 'nt' else 'clear')
     print("=====================================================================")
     print("                        INFORMATIONS COMPTE                          ")
     print("=====================================================================")
-    print("\nNom d'utilisateur : {}    Habs actuels :  {}\n\n{} Victoires         {} Nuls         {} Défaites \nRatio : {} ".format(login, money, victories, draws, defeats, ratio))
+    print(
+        "\nNom d'utilisateur : {}    Habs actuels :  {}\n\n{} Victoires         {} Nuls         {} Défaites \nRatio : {} ".format(
+            login, money, victories, draws, defeats, ratio))
     print("Veuillez choisir le menu que vous souhaitez utiliser :")
-    print ("\n1. Combats Solo")
-    print ("2. Combats d'Eleveurs")
-    print ("3. Combats d'Equipe")
-    print ("4. Inscription tournois")
+    print("\n1. Combats Solo")
+    print("2. Combats d'Eleveurs")
+    print("3. Combats d'Equipe")
+    print("4. Inscription tournois")
     print("\n9. Retour")
-    print ("0. Quitter")
+    print("0. Quitter")
     choice = input(" >>  ")
     if choice == "9":
         api.farmer.disconnect(token)
@@ -60,6 +65,7 @@ def main_menu():
     else:
         exec_menu(choice)
     return
+
 
 def exec_menu2(choice):
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -70,7 +76,7 @@ def exec_menu2(choice):
         try:
             menu_actions2[ch]()
         except KeyError:
-            print ("Invalid selection, please try again.\n")
+            print("Invalid selection, please try again.\n")
             menu_actions2['intro_menu']()
     return
 
@@ -85,10 +91,9 @@ def exec_menu(choice):
         try:
             menu_actions[ch]()
         except KeyError:
-            print ("Invalid selection, please try again.\n")
+            print("Invalid selection, please try again.\n")
             menu_actions['main_menu']()
     return
-
 
 
 def addAccount():
@@ -99,7 +104,7 @@ def addAccount():
     farmer_name = input('Identifiant: ')
     password = getpass.getpass(prompt='Mot de passe: ')
     r = api.farmer.login_token(farmer_name, password)
-    if r["success"]:
+    if r and 'token' in r:
         response = accountsManager.add(farmer_name, password)
         if response == 1:
             print("Compte ajouté !")
@@ -108,10 +113,11 @@ def addAccount():
     else:
         print("Mauvais identifiants, veuillez ajouter des logins fonctionnels")
     print("\n9. Retour")
-    print ("0. Quitter")
+    print("0. Quitter")
     choice = input(" >>  ")
     exec_menu2(choice)
     return
+
 
 def coCfg():
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -121,16 +127,16 @@ def coCfg():
     cfg = accountsManager.getAll()
     if len(cfg) == 0:
         exec_menu2("3")
-    a=0
+    a = 0
     for i in cfg:
-        a+=1
+        a += 1
         print('Compte {} : {}'.format(a, i["login"]))
     accChosen = int(input("Veuillez choisir le numéro correspondant au que vous voulez connecter : "))
-    acc = cfg[accChosen-1]
+    acc = cfg[accChosen - 1]
     farmer_name = acc["login"]
     password = acc["pw"]
     r = api.farmer.login_token(farmer_name, password)
-    if r["success"]:
+    if r and 'token' in r:
         global token
         global farmer
         global login
@@ -155,10 +161,11 @@ def coCfg():
     else:
         print("Erreur lors de la connexion")
         print("\n9. Retour")
-        print ("0. Quitter")
+        print("0. Quitter")
         choice = input(" >>  ")
         exec_menu2(choice)
     return
+
 
 def coPrompt():
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -168,7 +175,7 @@ def coPrompt():
     farmer_name = input('Identifiant: ')
     password = getpass.getpass(prompt='Mot de passe: ')
     r = api.farmer.login_token(farmer_name, password)
-    if r["success"]:
+    if r and 'token' in r:
         global token
         global farmer
         global login
@@ -193,7 +200,7 @@ def coPrompt():
     else:
         print("\nErreur lors de la connexion de l'éleveur. Vérifiez vos identifiants.")
         print("\n9. Retour")
-        print ("0. Quitter")
+        print("0. Quitter")
         choice = input(" >>  ")
         exec_menu2(choice)
     return
@@ -205,7 +212,9 @@ def menu1():
     print("=====================================================================")
     print("                        INFORMATIONS COMPTE                          ")
     print("=====================================================================")
-    print("\nNom d'utilisateur : {}    Habs actuels :  {}\n\n{} Victoires         {} Nuls         {} Défaites \nRatio : {} \n".format(login, money, victories, draws, defeats, ratio))
+    print(
+        "\nNom d'utilisateur : {}    Habs actuels :  {}\n\n{} Victoires         {} Nuls         {} Défaites \nRatio : {} \n".format(
+            login, money, victories, draws, defeats, ratio))
     print("=====================================================================")
     print("                           COMBATS SOLO                              ")
     print("=====================================================================\n")
@@ -222,16 +231,16 @@ def menu1():
             leek = leeks[leekchosen - 1]
         nbfightsWntd = int(input("Veuillez choisir le nombre de combats que vous souhaitez lancer : "))
         i = 0
-        file = open("logs/solofights/solofights_{}.txt".format(datetime.now().strftime('%d-%m-%Y_%H-%M-%S')),"w")
+        file = open("logs/solofights/solofights_{}.txt".format(datetime.now().strftime('%d-%m-%Y_%H-%M-%S')), "w")
         file.write("Poireau choisi pour {} combats : {}\n".format(nbfightsWntd, leek["name"]))
         while i < nbfightsWntd:
             r = api.garden.get_leek_opponents(leek["id"], token)
-            if r["success"]:
+            if r and 'opponents' in r:
                 print("Adversaires correctement chargés. Choix aléatoire de l'adversaire en cours...")
                 random.seed()
                 opponent = random.choice(r["opponents"])["id"]
                 r = api.garden.start_solo_fight(leek["id"], opponent, token)
-                if r["success"]:
+                if r and 'fight' in r:
                     file.write("https://leekwars.com/fight/{}\n".format(r["fight"]))
                 else:
                     print("Erreur lors du lancement du combat")
@@ -239,11 +248,12 @@ def menu1():
                 print("Erreur lors de l'affichage des adversaires")
             i += 1
         file.close()
-    print ("\n9. Retour")
-    print ("0. Quitter")
+    print("\n9. Retour")
+    print("0. Quitter")
     choice = input(" >>  ")
     exec_menu(choice)
     return
+
 
 # Menu 2
 def menu2():
@@ -251,7 +261,9 @@ def menu2():
     print("=====================================================================")
     print("                        INFORMATIONS COMPTE                          ")
     print("=====================================================================")
-    print("\nNom d'utilisateur : {}    Habs actuels :  {}\n\n{} Victoires         {} Nuls         {} Défaites \nRatio : {} \n".format(login, money, victories, draws, defeats, ratio))
+    print(
+        "\nNom d'utilisateur : {}    Habs actuels :  {}\n\n{} Victoires         {} Nuls         {} Défaites \nRatio : {} \n".format(
+            login, money, victories, draws, defeats, ratio))
     print("=====================================================================")
     print("                         COMBATS ELEVEURS                            ")
     print("=====================================================================\n")
@@ -261,16 +273,16 @@ def menu2():
         print("Vous avez {} combats restants.".format(nbfights))
         nbfightsWntd = int(input("Veuillez choisir le nombre de combats que vous souhaitez lancer : "))
         i = 0
-        file = open("logs/farmerfights/farmerfights_{}.txt".format(datetime.now().strftime('%d-%m-%Y_%H-%M-%S')),"w")
+        file = open("logs/farmerfights/farmerfights_{}.txt".format(datetime.now().strftime('%d-%m-%Y_%H-%M-%S')), "w")
         file.write("L'éleveur {} a été choisi pour {} combats.\n".format(login, nbfightsWntd))
         while i < nbfightsWntd:
             r = api.garden.get_farmer_opponents(token)
-            if r["success"]:
+            if r and 'opponents' in r:
                 print("Eleveurs correctement chargés. Choix aléatoire de l'éleveur en cours...")
                 random.seed()
                 opponent = random.choice(r["opponents"])["id"]
                 r = api.garden.start_farmer_fight(opponent, token)
-                if r["success"]:
+                if r and 'fight' in r:
                     file.write("https://leekwars.com/fight/{}\n".format(r["fight"]))
                 else:
                     print("Erreur lors du lancement du combat")
@@ -278,59 +290,65 @@ def menu2():
                 print("Erreur lors de l'affichage des éleveurs")
             i += 1
         file.close()
-    print ("\n9. Retour")
-    print ("0. Quitter")
+    print("\n9. Retour")
+    print("0. Quitter")
     choice = input(" >>  ")
     exec_menu(choice)
     return
+
 
 def menu4():
     maj(token)
     print("=====================================================================")
     print("                        INFORMATIONS COMPTE                          ")
     print("=====================================================================")
-    print("\nNom d'utilisateur : {}    Habs actuels :  {}\n\n{} Victoires         {} Nuls         {} Défaites \nRatio : {} \n".format(login, money, victories, draws, defeats, ratio))
+    print(
+        "\nNom d'utilisateur : {}    Habs actuels :  {}\n\n{} Victoires         {} Nuls         {} Défaites \nRatio : {} \n".format(
+            login, money, victories, draws, defeats, ratio))
     print("=====================================================================")
     print("                       INSCRIPTION TOURNOIS                          ")
     print("=====================================================================\n")
     r = api.garden.get(token)
-    if r["success"]:
+    if r and 'garden' in r:
         compositions = sorted(r["garden"]["my_compositions"], key=lambda l: l['id'])
         for i in compositions:
             r = api.team.register_tournament(i["id"], token)
-            if r["success"]:
+            if r and r == []:
                 print("{} a bien été inscrit au tournoi d'équipe.".format(i["name"]))
             else:
                 print("{} {} pour le tournoi d'équipe".format(i["name"], r["error"]))
     r = api.farmer.register_tournament(token)
-    if r["success"]:
+    if r and r == []:
         print("{} a bien été inscrit au tournoi d'éleveur.".format(farmer["name"]))
-    else :
+    else:
         print("{} {} pour le tournoi d'éleveur".format(farmer["name"], r["error"]))
     leeks = sorted(farmer["leeks"].values(), key=lambda l: l['id'])
     for i in leeks:
         r = api.leek.register_tournament(i["id"], token)
-        if r["success"]:
+        if r and r == []:
             print("{} a bien été inscrit au tournoi solo.".format(i["name"]))
-        else :
+        else:
             print("{} {} pour le tournoi solo".format(i["name"], r["error"]))
-    print ("\n9. Retour")
-    print ("0. Quitter")
+    print("\n9. Retour")
+    print("0. Quitter")
     choice = input(" >>  ")
     exec_menu(choice)
     return
+
 
 def menu3():
     maj(token)
     print("=====================================================================")
     print("                        INFORMATIONS COMPTE                          ")
     print("=====================================================================")
-    print("\nNom d'utilisateur : {}    Habs actuels :  {}\n\n{} Victoires         {} Nuls         {} Défaites \nRatio : {} \n".format(login, money, victories, draws, defeats, ratio))
+    print(
+        "\nNom d'utilisateur : {}    Habs actuels :  {}\n\n{} Victoires         {} Nuls         {} Défaites \nRatio : {} \n".format(
+            login, money, victories, draws, defeats, ratio))
     print("=====================================================================")
     print("                         COMBATS D'EQUIPE                            ")
     print("=====================================================================\n")
     r = api.garden.get(token)
-    if r["success"]:
+    if r and 'garden' in r:
         compositions = sorted(r["garden"]["my_compositions"], key=lambda l: l['id'])
         nbteamfightsTotal = sum(item['fights'] for item in compositions)
         print('\n'.join('Composition {} : {}'.format(i, l['name']) for i, l in enumerate(compositions, 1)))
@@ -340,20 +358,21 @@ def menu3():
             if len(compositions) == 1:
                 comp = compositions[0]
             else:
-                compchosen = int(input("Veuillez choisir le numéro correspondant à la composition qui doit se battre : "))
+                compchosen = int(
+                    input("Veuillez choisir le numéro correspondant à la composition qui doit se battre : "))
                 comp = compositions[compchosen - 1]
             nbfightsWntd = int(input("Veuillez choisir le nombre de combats que vous souhaitez lancer : "))
             i = 0
-            file = open("logs/teamfights/teamfights_{}.txt".format(datetime.now().strftime('%d-%m-%Y_%H-%M-%S')),"w")
+            file = open("logs/teamfights/teamfights_{}.txt".format(datetime.now().strftime('%d-%m-%Y_%H-%M-%S')), "w")
             file.write("La composition {} a été choisie pour {} combats.\n".format(comp["name"], nbfightsWntd))
             while i < nbfightsWntd:
                 r = api.garden.get_composition_opponents(comp["id"], token)
-                if r["success"]:
+                if r and 'opponents' in r:
                     print("Compositions correctement chargées. Choix aléatoire de la composition en cours...")
                     random.seed()
                     opponent = random.choice(r["opponents"])["id"]
                     r = api.garden.start_team_fight(comp["id"], opponent, token)
-                    if r["success"]:
+                    if r and 'fight' in r:
                         file.write("https://leekwars.com/fight/{}\n".format(r["fight"]))
                     else:
                         print("Erreur lors du lancement du combat")
@@ -362,28 +381,33 @@ def menu3():
                 i += 1
             file.close()
 
-    print ("9. Retour")
-    print ("0. Quitter")
+    print("9. Retour")
+    print("0. Quitter")
     choice = input(" >>  ")
     exec_menu(choice)
     return
+
 
 # Back to main menu
 def back():
     menu_actions['main_menu']()
 
+
 def back2():
     menu_actions2['intro_menu']()
+
+
 # Exit program
 def exit():
     sys.exit()
+
 
 # =======================
 #    MENUS DEFINITIONS
 # =======================
 def maj(token):
     r = api.farmer.get_from_token(token)
-    if r["success"]:
+    if r and 'farmer' in r:
         global victories
         global draws
         global defeats
@@ -399,6 +423,8 @@ def maj(token):
         money = farmer["habs"]
     else:
         print("MAJ Des informations impossible")
+
+
 # Menu definition
 menu_actions = {
     'main_menu': main_menu,
