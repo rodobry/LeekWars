@@ -12,7 +12,7 @@ api = API.APILeekwars()
 farmer_name = input('Login: ')
 password = getpass.getpass(prompt='Password: ')
 r = api.farmer.login_token(farmer_name, password)
-if r["success"]:
+if r and 'token' in r:
     token = r["token"]
     farmer = r["farmer"]
     login = farmer["name"]
@@ -33,12 +33,12 @@ if r["success"]:
         file.write("L'éleveur {} a été choisi pour {} combats : {}\n".format(farmer, nbfightsWntd))
         while i < nbfightsWntd:
             r = api.garden.get_farmer_opponents(token)
-            if r["success"]:
+            if r and 'opponents' in r:
                 print("Eleveurs correctement chargés. Choix aléatoire de l'éleveur en cours...")
                 random.seed()
                 opponent = random.choice(r["opponents"])["id"]
                 r = api.garden.start_farmer_fight(opponent, token)
-                if r["success"]:
+                if r and 'fight' in r:
                     file.write("https://leekwars.com/fight/{}\n".format(r["fight"]))
                     print("https://leekwars.com/fight/{}".format(r["fight"]))
                     print(datetime.now().strftime('%H-%M-%S'))
